@@ -7,7 +7,7 @@ function [] = a2()
 %just copy the dat files to wherever the default to this thing is
 load('z1.dat'); % This is 1a, already in matrix
 load('z2.dat');
-[evalvec,meanvec,evecmat] =  pcaprelim(z1); % Perform PCA and put em into variables
+[evalvec,meanvec,evecmat] =  pcaprelim(z2); % Perform PCA and put em into variables
 % 
 % new_data = evalvec?
 % step 2 is pcaaprox
@@ -17,12 +17,21 @@ load('z2.dat');
 % must obtain co-ords of data points in direction of eigen vectors
 
 % Using data signal 1, approxnum 2, and the data from pcaprelim
-[approxcomp, approxvec] = pcaapprox(z2(:,21),2,meanvec,evecmat);
+[approxcomp, approxvec] = pcaapprox(z2(:,21),4,meanvec,evecmat);
 hold all % Used to plot on same chart
+origSignal = (z2(:,21));
 plot(approxvec,'--'); % Our approximation represented by dotted line reconstructed
-plot(meanvec);
-plot(z2(:,21));
+plot(meanvec, '.');
+plot(origSignal);
+legend('Approximation','Mean','Original Data');
+title('Z2 Signal 21');
+
 % TODO, calculate the reconstruction errors
+error = approxvec - (origSignal);
+%origSignal(2,1)/approxvec(2,1) % Calculating the difference
+f2 = figure;
+plot (error);
+title('Z2 Signal 21 Reconstruction Error from Original');
 % Taking code from the Professor's notes
 % http://research.cs.queensu.ca/~cisc271/pdf/class18.pdf
 
